@@ -3,7 +3,7 @@ class ItemsController < ApplicationController
   before_action :set_item, only: [:show]
 
   def new
-    if params[:q]
+    if params[:q] # 検索ワード(name=q)を指定したときはAPIを用いて商品検索結果を@amazon_itemsに渡す
       response = Amazon::Ecs.item_search(params[:q] , 
                                   :search_index => 'All' , 
                                   :response_group => 'Medium' , 

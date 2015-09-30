@@ -5,13 +5,23 @@
         <div class="image">
           <div class="img-wrap">
             <% #TODO 商品画像 %>
-            <%= image_tag("no-image.png" , alt: item.get('ItemAttributes/Title')) %>
+            <%# gem 'amazon-ecs' https://github.com/jugend/amazon-ecs %>
+            <%# return an hash of children text values with the element names as the keys %>
+            <%#  item.get_hash('SmallImage') # {:url => ..., :width => ..., :height => ...} %>
+            <%# テストで「ヒルビリー」と検索するとLaregeImageが存在しないものがあった %>
+            <%#= item.get_hash.key?('LargeImage') %><%# hashにキー存在するか調べる 戻値はtrue false %>
+            <% if item.get_hash.key?('LargeImage') %>
+              <% image_url = item.get_hash('LargeImage')["URL"] %><%# 商品画像のURL %>
+              <%= image_tag(image_url , alt: item.get('ItemAttributes/Title')) %>
+            <% else %>
+              <%= image_tag("no-image.png" , alt: item.get('ItemAttributes/Title')) %>
+            <% end %>
           </div>
         </div>
         <div class="detail">
           <p class="title">
             <% #TODO 商品タイトル %>
-            仮タイトル
+            <%= item.get('ItemAttributes/Title') %>
           </p>
         </div>
         <div class="action clearfix">
