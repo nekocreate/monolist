@@ -36,7 +36,9 @@
           %>
           <%# have_users = Have.where(item_id: @item.id) %><%# Haveテーブルのitem_idカラムに@item.idの値を持つレコードをhave_usersに格納 %>
           <% @have_users.each do |f| %>
-            <%= link_to (gravatar_for f.user, size: 30, alt: f.user.name, title: f.user.name), user_path(f.user.id), target: "_blank" %>
+            <span data-toggle="tooltip" data-placement="bottom" data-original-title="<%= f.user.name %>"><%# tooltipを表示させる %>
+              <%= link_to (gravatar_for f.user, size: 30, alt: f.user.name, title: f.user.name), user_path(f.user.id), target: "_blank" %>
+            </span>
           <% end %>
         </div>
       </div>
@@ -49,7 +51,9 @@
           %>
           <%# want_users = Want.where(item_id: @item.id) %>
           <% @want_users.each do |f| %>
-            <%= link_to (gravatar_for f.user, size: 30, alt: f.user.name, title: f.user.name), user_path(f.user.id), target: "_blank" %>
+            <span data-toggle="tooltip" data-placement="bottom" data-original-title="<%= f.user.name %>"><%# tooltipを表示させる %>
+              <%= link_to (gravatar_for f.user, size: 30, alt: f.user.name, title: f.user.name), user_path(f.user.id), target: "_blank" %>
+            </span>
           <% end %>
         </div>
       </div>
@@ -60,3 +64,11 @@
     </div>
   </div>
 </div>
+
+
+<%# tooltip用のjQueryコード 本当はapplication.html.erbに記述したいところ。。%>
+<script type="text/javascript">
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip();
+  })
+</script>
