@@ -7,6 +7,19 @@ Rails.application.routes.draw do
   post   'login' , to: 'sessions#create'
   delete 'logout', to: 'sessions#destroy'
 
+
+  resources :users do
+    member do
+      #get :followings, :followers, :tweet, :favorite # このようにカンマ区切りでリファクタリングできる
+      get 'test' # テスト用
+    end
+    
+    collection do
+      #get 'alltweet'
+    end
+  end
+
+
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
   resources :relationships, only: [:create, :destroy]

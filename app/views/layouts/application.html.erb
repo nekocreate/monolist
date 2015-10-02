@@ -15,8 +15,21 @@
 <body>
 
 <%= render partial: "layouts/header" %>
+  <div id="notice">
+    <% flash.each do |message_type, message| %><!-- フラッシュメッセージを表示ここから -->
+      <div class="alert alert-<%= message_type %>"><%= message %></div>
+    <% end %><!-- フラッシュメッセージを表示ここまで -->
+  </div>
 <%= yield %>
 <%= render partial: "layouts/footer" %>
 
+  <!-- フラッシュメッセージ消す -->
+  <script>
+  $(function() {
+  	setTimeout(function() {
+  		$('#notice').fadeOut("slow");
+  	}, 1000);
+  });
+  </script>
 </body>
 </html>

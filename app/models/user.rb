@@ -14,6 +14,16 @@ class User < ActiveRecord::Base
 
   has_many :ownerships , foreign_key: "user_id", dependent: :destroy
   has_many :items ,through: :ownerships
+  
+  # wants は、ownershipsテーブルでtypeがwantである行の集まりの仮想的な中間テーブルを指す
+  # want_items で ownershipsテーブルからtypeがWantであるものを取得できる
+  has_many :wants, class_name: "Want", foreign_key: "user_id", dependent: :destroy
+  has_many :want_items, through: :wants, source: :item
+
+  # haves は、ownershipsテーブルでtypeがhaveである行の集まりの仮想的な中間テーブル
+  # Haveしたアイテムの一覧が have_itemsで取得できるようになる
+  has_many :haves, class_name: "Have", foreign_key: "user_id", dependent: :destroy
+  has_many :have_items, through: :haves, source: :item
 
 
   # 他のユーザーをフォローする
@@ -31,20 +41,30 @@ class User < ActiveRecord::Base
 
   ## TODO 実装
   def have(item)
+    # create でも良いが、念のために find_or_create_by を使ってみた。
+    # haves.create(item_id: item.id)
+    haves.find_or_create_by(item_id: item.id)
   end
 
   def unhave(item)
+    haves.find_by(item_id: item.id).destroy
   end
 
   def have?(item)
+    haves.find_by(item_id: item.id)
   end
 
   def want(item)
+    # create でも良いが、念のために find_or_create_by を使ってみた。
+    # wants.create(item_id: item.id)
+    wants.find_or_create_by(item_id: item.id)
   end
 
   def unwant(item)
+    wants.find_by(item_id: item.id).destroy
   end
 
   def want?(item)
+    wants.find_by(item_id: item.id)
   end
 end

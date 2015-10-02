@@ -55,6 +55,7 @@ user19 = User.create(name: "abe"      , email: "test18@example.com" , password: 
 user20 = User.create(name: "mori"     , email: "test19@example.com" , password: "kirapass" , password_confirmation: "kirapass")
 user21 = User.create(name: "ikeda"    , email: "test20@example.com" , password: "kirapass" , password_confirmation: "kirapass")
 user22 = User.create(name: "hashimoto", email: "test21@example.com" , password: "kirapass" , password_confirmation: "kirapass")
+user23 = User.create(name: "test", email: "test@test.com" , password: "111111" , password_confirmation: "111111")
 
 
 user1.follow(user2)

@@ -24,15 +24,89 @@
             <%= item.get('ItemAttributes/Title') %>
           </p>
         </div>
+
+
+        <%# remote true(Ajax)を使わない場合の処理を書いたので一応残しておく ここから############################################################################### %>
+        <%# @item_record = Item.find_by(asin: item.get('ASIN')) %><%# Itemテーブルからasinと一致するレコードを取得 %>
+        <%# if @item_record != nil %>
+          <%# if current_user.want?(@item_record) %> <%# wantしている場合 %>
+              <%#= link_to "unwant" , ownership_path(current_user, item_id: @item_record.id, type: "Want") ,
+                          :class => "want-#{item.get('ASIN')} btn-want btn btn-danger btn-sm want",
+                          :method => :delete %>
+          <%# else %>
+              <%#= link_to "want" , ownerships_path(asin: item.get('ASIN') , type: "Want") ,
+                          :class => "want-#{item.get('ASIN')} btn-want btn btn-danger btn-sm want",
+                          :method => :post %>
+          <%# end %>
+          
+          <%# if current_user.have?(@item_record) %> <%# haveしている場合 %>
+              <%#= link_to "unhave" , ownership_path(current_user, item_id: @item_record.id, type: "Have") ,
+                          :class => "have-#{item.get('ASIN')} btn-have btn btn-warning btn-sm have",
+                          :method => :delete %>
+          <%# else %>
+              <%#= link_to "have" , ownerships_path(asin: item.get('ASIN') , type: "Have") ,
+                          :class => "have-#{item.get('ASIN')} btn-have btn btn-warning btn-sm have",
+                          :method => :post %>
+          <%# end %>
+        
+        <%# else %>
+            <%#= link_to "want" , ownerships_path(asin: item.get('ASIN') , type: "Want") ,
+                        :class => "want-#{item.get('ASIN')} btn-want btn btn-danger btn-sm want",
+                        :method => :post %>
+        
+            <%#= link_to "have" , ownerships_path(asin: item.get('ASIN') , type: "Have") ,
+                        :class => "have-#{item.get('ASIN')} btn-have btn btn-warning btn-sm have",
+                        :method => :post %>
+        <%# end %>
+        <%# remote true(Ajax)を使わない場合の処理を書いたので一応残しておく ここまで############################################################################### %>
+
+
         <div class="action clearfix">
-          <%= link_to "" , ownerships_path(asin: item.get('ASIN') , type: "Want") ,
-                      :class => "want-#{item.get('ASIN')} btn-want btn btn-danger btn-sm want",
-                      :remote => true,
-                      :method => :post %>
-          <%= link_to "" , ownerships_path(asin: item.get('ASIN') , type: "Have") ,
-                      :class => "have-#{item.get('ASIN')} btn-have btn btn-warning btn-sm have",
-                      :remote => true,
-                      :method => :post %>
+          <% @item = Item.find_by(asin: item.get('ASIN')) %><%# Itemテーブルからasinと一致するレコードを取得 %>
+          <% if @item != nil %><%# Itemテーブルに存在したら %>
+
+            <%# want? の確認################################################################### %>
+            <% if current_user.want?(@item) %><%# current_userがwantに持っている場合 %>
+              <%= link_to "" , 
+                  ownership_path(current_user.wants.find_by(:item_id => @item.id) , 
+                    item_id: @item.id , type: "Want") ,
+                  :class => "want-#{@item.id} btn-want btn btn-danger btn-sm wanted",
+                  :remote => true,
+                  :method => :delete %>
+            <% else %><%# current_userがwantに持っていない場合 %>
+              <%= link_to "" , ownerships_path(asin: item.get('ASIN') , type: "Want") ,
+                          :class => "want-#{item.get('ASIN')} btn-want btn btn-danger btn-sm want",
+                          :remote => true,
+                          :method => :post %>       
+            <% end %>
+
+            <%# have? の確認################################################################### %>
+            <% if current_user.have?(@item) %><%# current_userがhaveに持っている場合 %>
+              <%= link_to "" , 
+                  ownership_path(current_user.haves.find_by(:item_id => @item.id) , 
+                    item_id: @item.id , type: "Have") ,
+                  :class => "have-#{@item.id} btn-have btn btn-danger btn-sm haved",
+                  :remote => true,
+                  :method => :delete %>
+            <% else %><%# current_userがhaveに持っていない場合 %>
+              <%= link_to "" , ownerships_path(asin: item.get('ASIN') , type: "Have") ,
+                          :class => "have-#{item.get('ASIN')} btn-have btn btn-warning btn-sm have",
+                          :remote => true,
+                          :method => :post %>    
+            <% end %>
+
+          <% else %><%# Itemテーブルに存在していなかったら 単純にWant Have ボタンを表示する %>
+            <%= link_to "" , ownerships_path(asin: item.get('ASIN') , type: "Want") ,
+                        :class => "want-#{item.get('ASIN')} btn-want btn btn-danger btn-sm want",
+                        :remote => true,
+                        :method => :post %>
+
+            <%= link_to "" , ownerships_path(asin: item.get('ASIN') , type: "Have") ,
+                        :class => "have-#{item.get('ASIN')} btn-have btn btn-warning btn-sm have",
+                        :remote => true,
+                        :method => :post %>
+          <% end %>
+
         </div>
       </div>
     <% end %>
