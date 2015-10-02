@@ -13,6 +13,8 @@ class ItemsController < ApplicationController
   end
 
   def show
+    @want_users = Want.where(item_id: @item.id) # Wantテーブルのitem_idカラムに@item.idの値を持つレコードをwant_usersに格納
+    @have_users = Have.where(item_id: @item.id) # Haveテーブルのitem_idカラムに@item.idの値を持つレコードをhave_usersに格納
   end
 
   private

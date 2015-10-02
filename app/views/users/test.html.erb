@@ -1,3 +1,11 @@
 testtest
 
+<%= gravatar_for current_user, size: 100 %>
+
 <%= current_user.inspect %>
+
+
+<%= @items = current_user.items.group(:item_id) %>
+
+<%= @items.inspect %>
+
