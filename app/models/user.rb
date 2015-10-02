@@ -51,7 +51,9 @@ class User < ActiveRecord::Base
   end
 
   def have?(item)
-    haves.find_by(item_id: item.id)
+    # どちらでも動くがhas_manyで指定したので下のを使う
+    # haves.find_by(item_id: item.id)
+    have_items.include?(item)
   end
 
   def want(item)
@@ -65,6 +67,8 @@ class User < ActiveRecord::Base
   end
 
   def want?(item)
-    wants.find_by(item_id: item.id)
+    # どちらでも動くがhas_manyで指定したので下のを使う
+    # wants.find_by(item_id: item.id)
+    want_items.include?(item)
   end
 end
