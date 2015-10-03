@@ -10,14 +10,23 @@ Rails.application.routes.draw do
 
   resources :users do
     member do
-      get 'test' # テスト用
+      # get 'test' # テスト用
     end
     
     collection do
     end
   end
+  
+  resources :ranking do
+    member do
+    end
+    
+    collection do
+      get :have, :want
+    end
+  end
 
-
+  resources :ranking, only: [:index]
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
   resources :relationships, only: [:create, :destroy]

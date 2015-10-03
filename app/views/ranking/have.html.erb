@@ -1,0 +1,46 @@
+<% content_for(:title) do %>
+  <title>持っているモノ・ランキング - monolist</title>
+<% end %>
+
+<% content_for(:head) do %>
+  <meta name="keywords" content="amazon,通販,monolist,モノリスト,持っているものランキング" />
+  <meta name="description" content="amazonで買われた数の多い商品をランキング形式で紹介しています。" />
+<% end %>
+
+<%# 下記の定義はコントローラーに記述した %>
+<%# @haved_ranks = Have.group(:item_id).order("count_all desc").limit(10).count %>
+<%# 戻り値 {163=>3, 167=>2, 168=>2, 169=>2, 171=>2, 131=>1, 133=>1, 134=>1, 164=>1, 165=>1} %>
+
+<div class="container">
+    <div align="center"><h2>Haved(持っているモノ)ランキング</h2></center>
+    <div class="container-inner inner-default clearfix">
+        <% each_count = 0 %>
+        <% @haved_ranks.each do |f| %><%# f には [163, 3] のような配列が入る %>
+            <% item_id = f[0] %><%# item_id 配列の0番目 %>
+            <% haved_count = f[1] %><%# havedの数 配列の1番目 %>
+            <% item = Item.find(item_id) %><%# Itemテーブルの中で該当するレコードをitemに格納 %>
+            
+            <div class="item-box">
+            <div class="image">
+              <div class="img-wrap">
+                <% if item.large_image.present? %>
+                  <%= image_tag(item.large_image , alt: item.title) %>
+                <% else %>
+                  <%= image_tag("no-image.png" , alt: item.title) %>
+                <% end %>
+              </div>
+            </div>
+            <div class="detail">
+              <p class="title">
+                  ランキング<%= each_count + 1 %>位 Haved数：<%= haved_count %>人<br />
+                <%= item.title %>
+              </p>
+            </div>
+            <%= render 'items/action' , item: item if logged_in? %>
+            </div>
+        
+            <% each_count +=1 %>
+        <% end %>
+    </div>
+</div>
+
