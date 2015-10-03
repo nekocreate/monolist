@@ -25,9 +25,9 @@ class UsersController < ApplicationController
   def show
     #@items = @user.items.group(:item_id)
     # PG::GroupingError: ERROR:  column "items.id" must appear in the GROUP BY clause or be used in an aggregate function
+    # 上記の場合だと、Herokuにデプロイ後、グルーピングエラーが出てしまった
+    # 下記のようにするとエラーが出なくなったが、その理由がわからない。
     @items = @user.items
-    # @have_users = Have.where(item_id: @item.id) # Haveテーブルのitem_idカラムに@item.idの値を持つレコードをhave_usersに格納
-    #@items = @user.items.where(item_id:)
   end
 
   private
