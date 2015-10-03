@@ -27,7 +27,8 @@ class UsersController < ApplicationController
     # PG::GroupingError: ERROR:  column "items.id" must appear in the GROUP BY clause or be used in an aggregate function
     # 上記の場合だと、Herokuにデプロイ後、グルーピングエラーが出てしまった
     # 下記のようにするとエラーが出なくなったが、その理由がわからない。
-    @items = @user.items
+    # @items = @user.items
+    @items = @user.items.group("items.id")
   end
 
   private
