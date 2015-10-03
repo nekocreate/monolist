@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show]
   
   def test
+    # @user = User.new
   end
   
   def new
@@ -22,7 +23,10 @@ class UsersController < ApplicationController
   end
   
   def show
+    #@items = @user.items.group(:item_id)
     @items = @user.items.group(:item_id)
+    # @have_users = Have.where(item_id: @item.id) # Haveテーブルのitem_idカラムに@item.idの値を持つレコードをhave_usersに格納
+    #@items = @user.items.where(item_id:)
   end
 
   private

@@ -1,11 +1,16 @@
 testtest
+<%= @user = User.find(params[:id]) %>
+<hr>
+group<br>
+<%= @items = @user.items.group(:item_id).inspect %>
 
-<%= gravatar_for current_user, size: 100 %>
+<hr>
 
-<%= current_user.inspect %>
+<hr><hr><hr><hr>
+
 
 
 <%= @items = current_user.items.group(:item_id) %>
 
-<%= @items.inspect %>
+
 
